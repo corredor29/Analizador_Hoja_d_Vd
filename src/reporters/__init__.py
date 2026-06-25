@@ -1,0 +1,1 @@
+from src.reporters.json_reporter import guardar_resultado, cargar_resultado, listar_resultados

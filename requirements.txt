@@ -1,0 +1,31 @@
+# ── Interfaz visual ──────────────────────────────────────
+streamlit>=1.35.0
+
+# ── LangChain (orquestación multi-IA) ───────────────────
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-openai>=0.1.0          # GPT-4
+langchain-google-genai>=1.0.0    # Gemini
+langchain-anthropic>=0.1.0       # Claude
+langchain-mistralai>=0.1.0       # Mistral
+
+# ── Base de datos PostgreSQL ─────────────────────────────
+psycopg[binary]>=3.1.0           # Driver de conexión
+SQLAlchemy>=2.0.0                # ORM
+langchain-postgres>=0.0.9        # PostgreSQL como vector store
+pgvector>=0.2.0                  # Búsqueda semántica por similitud
+
+# ── Extracción de texto de CVs ───────────────────────────
+pdfplumber>=0.10.0               # Extrae texto de PDFs
+python-docx>=1.1.0               # Extrae texto de Word (.docx)
+
+# ── Visualización ────────────────────────────────────────
+pandas>=2.2.0
+plotly>=5.22.0
+
+python-dotenv>=1.0.0
+pydantic>=2.7.0
+
+pytest>=8.0.0                    # Tests
+black>=24.0.0                    # Formateador
+ruff>=0.4.0                      # Linter

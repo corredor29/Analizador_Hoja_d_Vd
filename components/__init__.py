@@ -1,0 +1,6 @@
+from components.upload_zone import mostrar_upload_zone
+from components.score_card import mostrar_score_card
+from components.skills_chart import mostrar_skills_chart
+from components.experience_timeline import mostrar_experience_timeline
+from components.job_match_panel import mostrar_job_match_panel
+from components.ia_comparison_panel import mostrar_ia_comparison_panel

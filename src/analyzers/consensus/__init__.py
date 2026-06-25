@@ -1,0 +1,2 @@
+from src.analyzers.consensus.aggregator import agregar_resultados
+from src.analyzers.consensus.consensus_scorer import calcular_score_consenso
