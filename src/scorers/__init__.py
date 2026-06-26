@@ -1,2 +1,2 @@
 from src.scorers.cv_scorer import calcular_score_cv
-from src.scorers.job_matcher import calcular_match
+from src.scorers.job_matcher import calcular_match, evaluar_requisitos_minimos

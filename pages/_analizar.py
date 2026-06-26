@@ -1,6 +1,6 @@
 import streamlit as st
 from src.analyzers import analizar_cv
-from src.scorers import calcular_match
+from src.scorers import calcular_match, evaluar_requisitos_minimos
 from src.reporters import guardar_resultado
 from database.connection import get_session
 from database.repositories.candidato_repository import crear_candidato
@@ -13,9 +13,10 @@ if "cv_texto" not in st.session_state:
     st.warning("⚠️ Primero debes subir un CV en la página anterior.")
     st.stop()
 
-cv_texto       = st.session_state["cv_texto"]
-contacto       = st.session_state["contacto"]
-oferta_trabajo = st.session_state.get("oferta_trabajo")
+cv_texto           = st.session_state["cv_texto"]
+contacto           = st.session_state["contacto"]
+oferta_trabajo     = st.session_state.get("oferta_trabajo")
+requisitos_minimos = st.session_state.get("requisitos_minimos")
 
 st.markdown(f"**Archivo:** {st.session_state.get('archivo_nombre', '')}")
 st.markdown(f"**Candidato:** {contacto.get('nombre', 'Desconocido')} | {contacto.get('email', '')}")
@@ -35,6 +36,11 @@ if st.button("🚀 Iniciar análisis multi-IA", type="primary", use_container_wi
         if oferta_trabajo:
             st.write("🎯 Calculando match con oferta...")
             match = calcular_match(consenso, oferta_trabajo)
+
+        evaluacion_requisitos = None
+        if requisitos_minimos:
+            st.write("🚫 Evaluando requisitos mínimos...")
+            evaluacion_requisitos = evaluar_requisitos_minimos(requisitos_minimos, consenso)
 
         st.write("💾 Guardando en base de datos...")
         with get_session() as session:
@@ -59,7 +65,8 @@ if st.button("🚀 Iniciar análisis multi-IA", type="primary", use_container_wi
         status.update(label="✅ Análisis completado", state="complete")
 
     # Guardamos en sesión para la página de resultados
-    st.session_state["consenso"] = consenso
-    st.session_state["match"]    = match
+    st.session_state["consenso"]              = consenso
+    st.session_state["match"]                 = match
+    st.session_state["evaluacion_requisitos"] = evaluacion_requisitos
 
     st.success("✅ Análisis completado. Ve a **Resultados** para ver el informe.")

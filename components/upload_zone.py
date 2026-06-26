@@ -35,4 +35,21 @@ def mostrar_upload_zone() -> tuple:
         help="Si ingresas la oferta, el análisis incluirá qué tan bien encaja el candidato con el cargo.",
     )
 
-    return archivo, oferta_trabajo if oferta_trabajo.strip() else None
+    st.divider()
+    st.subheader("🚫 Requisitos mínimos (opcional)")
+    st.caption("Define los criterios eliminatorios. Si el candidato no los cumple, se explicará por qué no fue contratado.")
+
+    requisitos_minimos = st.text_area(
+        label="Requisitos mínimos del cargo",
+        placeholder=(
+            "Ej:\n"
+            "- Mínimo 3 años de experiencia\n"
+            "- Python obligatorio\n"
+            "- Nivel Senior\n"
+            "- Inglés B2"
+        ),
+        height=130,
+        help="Uno por línea. Pueden ser años de experiencia, skills obligatorias, nivel requerido, idiomas, etc.",
+    )
+
+    return archivo, oferta_trabajo if oferta_trabajo.strip() else None, requisitos_minimos if requisitos_minimos.strip() else None
