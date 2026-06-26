@@ -39,6 +39,15 @@ def mostrar_job_match_panel(match: dict):
         for skill in match.get("skills_faltantes", []):
             st.markdown(f"- {skill}")
 
+    # Desglose semántico (disponible cuando se usaron embeddings de Mistral)
+    kw  = match.get("porcentaje_keywords")
+    sem = match.get("porcentaje_semantico")
+    if kw is not None and sem is not None:
+        st.markdown("####")
+        c1, c2 = st.columns(2)
+        c1.metric("Keywords match", f"{kw}%")
+        c2.metric("Similitud semántica (Mistral)", f"{sem}%")
+
     st.markdown("####")
     st.info(f"💡 {match.get('recomendacion', '')}")
 

@@ -35,6 +35,13 @@ def mostrar_score_card(consenso: dict):
 
     st.info(f"📊 Nivel de acuerdo entre IAs: **{nivel_acuerdo}** | Mayor score: **{ia_alta}** | Menor score: **{ia_baja}**")
 
+    recomendaciones = consenso.get("recomendaciones", [])
+    if recomendaciones:
+        st.markdown("####")
+        st.markdown("### 💡 Recomendaciones del consenso")
+        for rec in recomendaciones:
+            st.markdown(f"- {rec}")
+
 
 def _color_score(score: float) -> str:
     if score >= 75:

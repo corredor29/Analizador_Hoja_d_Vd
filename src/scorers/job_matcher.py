@@ -1,4 +1,5 @@
 import re
+from src.embeddings.mistral_embeddings import calcular_similitud_semantica
 
 
 def evaluar_requisitos_minimos(requisitos_texto: str, consenso: dict) -> dict:
@@ -103,28 +104,44 @@ def _evaluar_linea(linea: str, skills: list[str], nivel: str, años: float) -> t
     return False, f"No se pudo verificar: '{linea}' (no detectado automáticamente)"
 
 
-def calcular_match(consenso: dict, oferta_trabajo: str) -> dict:
+def calcular_match(consenso: dict, oferta_trabajo: str, cv_texto: str = None) -> dict:
     oferta_lower  = oferta_trabajo.lower()
     skills_cv     = [s.lower() for s in consenso.get("skills", [])]
 
-    skills_match    = [s for s in skills_cv if s in oferta_lower]
+    skills_match     = [s for s in skills_cv if s in oferta_lower]
     skills_faltantes = _detectar_skills_faltantes(oferta_lower, skills_cv)
 
-    # Porcentaje de skills del CV que aparecen en la oferta
-    if skills_cv:
-        porcentaje = round(len(skills_match) / len(skills_cv) * 100, 1)
-    else:
-        porcentaje = 0.0
+    porcentaje_keywords = round(len(skills_match) / len(skills_cv) * 100, 1) if skills_cv else 0.0
 
+    # Similitud semántica con embeddings de Mistral
+    texto_cv = cv_texto or _resumir_consenso(consenso)
+    similitud = calcular_similitud_semantica(texto_cv, oferta_trabajo)
+    porcentaje_semantico = round(similitud * 100, 1)
+
+    # Score combinado: 60% keywords + 40% semántico
+    porcentaje = round(0.6 * porcentaje_keywords + 0.4 * porcentaje_semantico, 1)
     nivel_match = _nivel_match(porcentaje)
 
     return {
-        "porcentaje_match":  porcentaje,
-        "nivel_match":       nivel_match,
-        "skills_match":      skills_match,
-        "skills_faltantes":  skills_faltantes,
-        "recomendacion":     _generar_recomendacion(porcentaje, skills_faltantes),
+        "porcentaje_match":      porcentaje,
+        "porcentaje_keywords":   porcentaje_keywords,
+        "porcentaje_semantico":  porcentaje_semantico,
+        "nivel_match":           nivel_match,
+        "skills_match":          skills_match,
+        "skills_faltantes":      skills_faltantes,
+        "recomendacion":         _generar_recomendacion(porcentaje, skills_faltantes),
     }
+
+
+def _resumir_consenso(consenso: dict) -> str:
+    """Construye un texto representativo del CV a partir del consenso para embeddings."""
+    partes = consenso.get("skills", [])
+    for exp in consenso.get("experiencia", []):
+        partes.append(exp.get("cargo", ""))
+        partes.append(exp.get("empresa", ""))
+        partes.append(exp.get("descripcion", ""))
+    partes += consenso.get("fortalezas", [])
+    return " ".join(p for p in partes if p)
 
 
 def _detectar_skills_faltantes(oferta: str, skills_cv: list[str]) -> list[str]:

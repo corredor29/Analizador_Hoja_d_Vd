@@ -1,5 +1,6 @@
 import pdfplumber
 import re
+from src.parsers.contact_parser import parsear_contacto
 
 
 def extraer_texto_pdf(archivo) -> str:
@@ -28,12 +29,8 @@ def limpiar_texto(texto: str) -> str:
 
 
 def extraer_contacto_pdf(archivo) -> dict:
-    """
-    Extrae email y teléfono del PDF usando expresiones regulares.
-    Retorna un diccionario con los datos encontrados.
-    """
     texto = extraer_texto_pdf(archivo)
-    return extraer_contacto_desde_texto(texto)
+    return parsear_contacto(texto)
 
 
 def extraer_contacto_desde_texto(texto: str) -> dict:

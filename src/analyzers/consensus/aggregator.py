@@ -29,8 +29,9 @@ def agregar_resultados(resultados: list[ResultadoAnalisis]) -> dict:
     ))
 
     experiencia_consolidada = _consolidar_experiencia(resultados)
-    fortalezas_consenso = _encontrar_consenso([r.fortalezas for r in resultados])
-    debilidades_consenso = _encontrar_consenso([r.debilidades for r in resultados])
+    fortalezas_consenso     = _encontrar_consenso([r.fortalezas      for r in resultados])
+    debilidades_consenso    = _encontrar_consenso([r.debilidades     for r in resultados])
+    recomendaciones_consenso = _encontrar_consenso([r.recomendaciones for r in resultados])
 
     niveles = [r.nivel for r in resultados]
     nivel_final = max(set(niveles), key=niveles.count)
@@ -38,14 +39,15 @@ def agregar_resultados(resultados: list[ResultadoAnalisis]) -> dict:
     scores_por_ia = {r.ia_nombre: r.score for r in resultados}
 
     return {
-        "score_final": round(score_final, 1),
-        "scores_por_ia": scores_por_ia,
-        "skills": skills_union,
-        "experiencia": experiencia_consolidada,
-        "fortalezas": fortalezas_consenso,
-        "debilidades": debilidades_consenso,
-        "nivel": nivel_final,
-        "total_ias": len(resultados),
+        "score_final":     round(score_final, 1),
+        "scores_por_ia":   scores_por_ia,
+        "skills":          skills_union,
+        "experiencia":     experiencia_consolidada,
+        "fortalezas":      fortalezas_consenso,
+        "debilidades":     debilidades_consenso,
+        "recomendaciones": recomendaciones_consenso,
+        "nivel":           nivel_final,
+        "total_ias":       len(resultados),
     }
 
 

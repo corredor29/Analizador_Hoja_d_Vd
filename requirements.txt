@@ -4,17 +4,17 @@ streamlit>=1.35.0
 # ── LangChain (orquestación multi-IA) ───────────────────
 langchain>=0.2.0
 langchain-core>=0.2.0
-langchain-openai>=0.1.0          # GPT-4
-langchain-google-genai>=1.0.0    # Gemini
-langchain-mistralai>=0.1.0       # Mistral
+langchain-openai>=0.1.0          
+langchain-google-genai>=1.0.0    
+langchain-mistralai>=0.1.0       
 
 # ── Base de datos PostgreSQL ─────────────────────────────
-psycopg[binary]>=3.1.0           # Driver de conexión
-SQLAlchemy>=2.0.0                # ORM
+psycopg[binary]>=3.1.0          
+SQLAlchemy>=2.0.0             
 
 # ── Extracción de texto de CVs ───────────────────────────
-pdfplumber>=0.10.0               # Extrae texto de PDFs
-python-docx>=1.1.0               # Extrae texto de Word (.docx)
+pdfplumber>=0.10.0
+python-docx>=1.1.0
 
 # ── Visualización ────────────────────────────────────────
 pandas>=2.2.0
@@ -25,6 +25,6 @@ python-dotenv>=1.0.0
 pydantic>=2.7.0
 
 # ── Calidad de código ────────────────────────────────────
-pytest>=8.0.0                    # Tests
-black>=24.0.0                    # Formateador
-ruff>=0.4.0                      # Linter
+pytest>=8.0.0                    
+black>=24.0.0                    
+ruff>=0.4.0                      

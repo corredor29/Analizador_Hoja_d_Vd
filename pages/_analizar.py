@@ -35,7 +35,7 @@ if st.button("🚀 Iniciar análisis multi-IA", type="primary", use_container_wi
         match = None
         if oferta_trabajo:
             st.write("🎯 Calculando match con oferta...")
-            match = calcular_match(consenso, oferta_trabajo)
+            match = calcular_match(consenso, oferta_trabajo, cv_texto)
 
         evaluacion_requisitos = None
         if requisitos_minimos:

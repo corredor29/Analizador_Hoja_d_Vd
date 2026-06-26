@@ -1,6 +1,7 @@
 import re
 from docx import Document
-from src.extractors.pdf_extractor import limpiar_texto, extraer_contacto_desde_texto
+from src.extractors.pdf_extractor import limpiar_texto
+from src.parsers.contact_parser import parsear_contacto
 
 
 def extraer_texto_docx(archivo) -> str:
@@ -25,6 +26,5 @@ def extraer_texto_docx(archivo) -> str:
 
 
 def extraer_contacto_docx(archivo) -> dict:
-    """Extrae email y teléfono de un archivo Word."""
     texto = extraer_texto_docx(archivo)
-    return extraer_contacto_desde_texto(texto)
+    return parsear_contacto(texto)
