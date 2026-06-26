@@ -28,7 +28,7 @@ st.divider()
 col1, col2, col3, col4 = st.columns(4)
 
 col1.info("**📄 Paso 1**\nSube el CV en PDF o DOCX")
-col2.info("**🔍 Paso 2**\nAnaliza con Claude, OpenAI, Gemini y Mistral")
+col2.info("**🔍 Paso 2**\nAnaliza con OpenAI y Mistral")
 col3.info("**📊 Paso 3**\nRevisa los resultados y el score final")
 col4.info("**🤖 Paso 4**\nCompara qué dijo cada IA")
 

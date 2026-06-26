@@ -1,4 +1,3 @@
-import json
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
 from src.analyzers.providers.base_analyzer import BaseAnalyzer, ResultadoAnalisis
@@ -12,12 +11,13 @@ class OpenAIAnalyzer(BaseAnalyzer):
             api_key=OPENAI_API_KEY,
             model="gpt-4o",
             max_tokens=MAX_TOKENS,
+            model_kwargs={"response_format": {"type": "json_object"}},
         )
 
     def analizar(self, cv_texto: str, oferta_trabajo: str = None) -> ResultadoAnalisis:
         prompt = self._construir_prompt(cv_texto, oferta_trabajo)
         respuesta = self.cliente.invoke([HumanMessage(content=prompt)])
-        datos = json.loads(respuesta.content)
+        datos = self._extraer_json(respuesta.content)
 
         return ResultadoAnalisis(
             ia_nombre="OpenAI",

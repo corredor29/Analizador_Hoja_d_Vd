@@ -25,10 +25,9 @@ def mostrar_score_card(consenso: dict):
 
     st.markdown("####")
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric("🟣 Claude",  f"{consenso.get('scores_por_ia', {}).get('Claude', 0):.1f}")
-    col2.metric("🟢 OpenAI",  f"{consenso.get('scores_por_ia', {}).get('OpenAI', 0):.1f}")
-    col3.metric("🔵 Gemini",  f"{consenso.get('scores_por_ia', {}).get('Gemini', 0):.1f}")
+    col1, col2 = st.columns(2)
+    col1.metric("🟢 OpenAI",  f"{consenso.get('scores_por_ia', {}).get('OpenAI', 0):.1f}")
+    col2.metric("🟠 Mistral", f"{consenso.get('scores_por_ia', {}).get('Mistral', 0):.1f}")
 
     nivel_acuerdo = consenso.get("nivel_acuerdo", "")
     ia_alta = consenso.get("ia_mas_alta", "")

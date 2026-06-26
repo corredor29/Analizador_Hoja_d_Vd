@@ -1,4 +1,3 @@
-import json
 from langchain_mistralai import ChatMistralAI
 from langchain_core.messages import HumanMessage
 from src.analyzers.providers.base_analyzer import BaseAnalyzer, ResultadoAnalisis
@@ -17,7 +16,8 @@ class MistralAnalyzer(BaseAnalyzer):
     def analizar(self, cv_texto: str, oferta_trabajo: str = None) -> ResultadoAnalisis:
         prompt = self._construir_prompt(cv_texto, oferta_trabajo)
         respuesta = self.cliente.invoke([HumanMessage(content=prompt)])
-        datos = json.loads(respuesta.content)
+
+        datos = self._extraer_json(respuesta.content)
 
         return ResultadoAnalisis(
             ia_nombre="Mistral",

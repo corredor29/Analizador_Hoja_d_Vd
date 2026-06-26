@@ -1,28 +1,13 @@
 from src.analyzers.providers.base_analyzer import ResultadoAnalisis
-from config.settings import WEIGHT_CLAUDE, WEIGHT_OPENAI, WEIGHT_GEMINI, WEIGHT_MISTRAL
+from config.settings import WEIGHT_OPENAI, WEIGHT_MISTRAL
 
 
 def calcular_score_consenso(resultados: list[ResultadoAnalisis]) -> dict:
-    """
-    Calcula el score final ponderado y métricas de acuerdo entre IAs.
-
-    Returns:
-        {
-            "score_final": 81.5,
-            "scores_por_ia": {"Claude": 82, "OpenAI": 78, ...},
-            "nivel_acuerdo": "Alto",     # Alto | Medio | Bajo
-            "varianza": 4.5,             # Qué tan distintos fueron los scores
-            "ia_mas_alta": "Gemini",
-            "ia_mas_baja": "OpenAI",
-        }
-    """
     if not resultados:
         raise ValueError("No hay resultados para calcular el score")
 
     pesos = {
-        "Claude":  WEIGHT_CLAUDE,
         "OpenAI":  WEIGHT_OPENAI,
-        "Gemini":  WEIGHT_GEMINI,
         "Mistral": WEIGHT_MISTRAL,
     }
 
@@ -43,11 +28,11 @@ def calcular_score_consenso(resultados: list[ResultadoAnalisis]) -> dict:
     varianza = round(sum((s - promedio) ** 2 for s in scores) / len(scores), 2)
 
     if varianza <= 25:
-        nivel_acuerdo = "Alto"     
+        nivel_acuerdo = "Alto"
     elif varianza <= 100:
-        nivel_acuerdo = "Medio"    
+        nivel_acuerdo = "Medio"
     else:
-        nivel_acuerdo = "Bajo"  
+        nivel_acuerdo = "Bajo"
 
     ia_mas_alta = max(scores_por_ia, key=scores_por_ia.get)
     ia_mas_baja = min(scores_por_ia, key=scores_por_ia.get)

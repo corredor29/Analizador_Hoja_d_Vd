@@ -24,9 +24,7 @@ if st.button("🚀 Iniciar análisis multi-IA", type="primary", use_container_wi
 
     with st.status("Analizando CV con múltiples IAs...", expanded=True) as status:
 
-        st.write("🟣 Consultando Claude...")
         st.write("🟢 Consultando OpenAI...")
-        st.write("🔵 Consultando Gemini...")
         st.write("🟠 Consultando Mistral...")
 
         consenso = analizar_cv(cv_texto, oferta_trabajo)
@@ -42,17 +40,16 @@ if st.button("🚀 Iniciar análisis multi-IA", type="primary", use_container_wi
         with get_session() as session:
             candidato = crear_candidato(
                 session,
-                nombre=contacto.get("nombre", "Desconocido"),
-                email=contacto.get("email", "sin@email.com"),
+                nombre=contacto.get("nombre") or "Desconocido",
+                email=contacto.get("email") or "sin@email.com",
             )
             crear_analisis(
                 session,
                 candidato_id=candidato.id,
                 skills=consenso.get("skills", []),
                 experiencia=consenso.get("experiencia", []),
-                score_claude=consenso.get("scores_por_ia", {}).get("Claude", 0),
                 score_openai=consenso.get("scores_por_ia", {}).get("OpenAI", 0),
-                score_gemini=consenso.get("scores_por_ia", {}).get("Gemini", 0),
+                score_mistral=consenso.get("scores_por_ia", {}).get("Mistral", 0),
                 score_final=consenso.get("score_final", 0),
             )
 
